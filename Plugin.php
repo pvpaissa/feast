@@ -8,9 +8,8 @@ use Event;
 use Log;
 use Queue;
 use System\Classes\PluginBase;
-use Cleanse\Pvpaissa\Models\Player;
 use Cleanse\Pvpaissa\Classes\HelperDataCenters;
-use Cleanse\Pvpaissa\Classes\Feast\FeastHelper;
+use Cleanse\Feast\Classes\FeastHelper;
 
 class Plugin extends PluginBase
 {
@@ -27,13 +26,15 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'Cleanse\Pvpaissa\Components\FeastSoloFull'         => 'feastSoloFull',
-            'Cleanse\Pvpaissa\Components\FeastSoloMini'         => 'feastSoloMini',
-            'Cleanse\Pvpaissa\Components\FeastPartyFull'        => 'feastPartyFull',
-            'Cleanse\Pvpaissa\Components\FeastPartyMini'        => 'feastPartyMini',
-            'Cleanse\Pvpaissa\Components\FeastWeekly'           => 'feastWeekly',
-            'Cleanse\Pvpaissa\Components\CharacterProfileFeast' => 'characterProfileFeast',
-            'Cleanse\Pvpaissa\Components\FeastInstall'          => 'feastInstall', //?? Rewrite later.
+            'Cleanse\Feast\Components\Solo'  => 'cleanseFeastSolo',
+            'Cleanse\Feast\Components\Party' => 'cleanseFeastParty',
+
+            //todo: Finish rewriting the components below.
+            'Cleanse\Feast\Components\FeastSoloMini'         => 'feastSoloMini',
+            'Cleanse\Feast\Components\FeastPartyMini'        => 'feastPartyMini',
+            'Cleanse\Feast\Components\FeastWeekly'           => 'feastWeekly',
+            'Cleanse\Feast\Components\CharacterProfileFeast' => 'characterProfileFeast',
+            'Cleanse\Feast\Components\FeastInstall'          => 'feastInstall', //?? Rewrite later.
         ];
     }
 
@@ -59,42 +60,42 @@ class Plugin extends PluginBase
 
     public function registerSchedule($schedule)
     {
-//        $schedule->call(function () {
-//            $feast = new FeastHelper;
-//            $day = $feast->yearDay();
-//            $tiers = $feast->tiers;
-//            $types = $feast->types;
-//            $datacenters = $feast->datacenters;
-//            $season = Config::get('cleanse.pvpaissa::season', 1);
-//
-//            Log::info('Starting feast update.');
-//
-//            foreach ($types as $type) {
-//                foreach ($datacenters as $datacenter) {
-//                    foreach ($tiers as $tier) {
-//                        $data = [
-//                            'datacenter' => $datacenter,
-//                            'day' => $day,
-//                            'tier' => $tier,
-//                            'type' => $type,
-//                            'season' => $season
-//                        ];
-//
-//                        if ($type === 'party' and $tier <= 4) {
-//                            Log::info('Skipping: '.$datacenter.' '.$type.' '.$tier);
-//                        } else {
-//                            Log::info('else '.$datacenter.' '.$type.' '.$tier.' '.$season);
-//                            Queue::push('\Cleanse\Pvpaissa\Classes\Jobs\ScrapeFeast', $data);
-//                        }
-//                    }
-//                }
-//
-//                Queue::push('\Cleanse\Pvpaissa\Classes\Jobs\RankFeastDaily', [
-//                    'day' => $day,
-//                    'type' => $type,
-//                    'season' => $season
-//                ]);
-//            }
-//        })->cron('45 14 * * *');
+        $schedule->call(function () {
+            $feast = new FeastHelper;
+            $day = $feast->yearDay();
+            $tiers = $feast->tiers;
+            $types = $feast->types;
+            $datacenters = $feast->datacenters;
+            $season = Config::get('cleanse.feast::season', 1);
+
+            Log::info('Starting feast update.');
+
+            foreach ($types as $type) {
+                foreach ($datacenters as $datacenter) {
+                    foreach ($tiers as $tier) {
+                        $data = [
+                            'datacenter' => $datacenter,
+                            'day' => $day,
+                            'tier' => $tier,
+                            'type' => $type,
+                            'season' => $season
+                        ];
+
+                        if ($type === 'party' and $tier <= 4) {
+                            Log::info('Skipping: '.$datacenter.' '.$type.' '.$tier);
+                        } else {
+                            Log::info('else '.$datacenter.' '.$type.' '.$tier.' '.$season);
+                            Queue::push('\Cleanse\Feast\Classes\Jobs\ScrapeFeast', $data);
+                        }
+                    }
+                }
+
+                Queue::push('\Cleanse\Feast\Classes\Jobs\RankFeastDaily', [
+                    'day' => $day,
+                    'type' => $type,
+                    'season' => $season
+                ]);
+            }
+        })->cron('45 14 * * *');
     }
 }
