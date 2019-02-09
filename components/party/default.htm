@@ -1,0 +1,63 @@
+{% set rankings = __SELF__.rankings %}
+<div class="basic-page">
+    <div class="container">
+        <div class="page-title">
+            <h1>Light Party Feast Rankings</h1>
+            <div class="sub-box"></div>
+        </div>
+
+        <div class="table-responsive-sm">
+            <table class="table text-white">
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Rating</th>
+                    <th class="hidden-md-down">Change</th>
+                    <th>Name</th>
+                    <th class="hidden-md-down">Data Center</th>
+                    <th class="hidden-md-down">Server</th>
+                    <th class="hidden-md-down">Wins</th>
+                    <th class="hidden-md-down">Matches</th>
+                    <th>Win %</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for party in rankings %}
+                <tr class="clickable" data-href="/character/{{ party.player.character }}/feast/{{ season }}">
+                    <td>{% if party.rank == 8675309 %} <i class="icon icon-arrow-down" aria-hidden="true"></i> {% else %} {{ party.rank }} {% endif %}</td>
+                    <td>{{ party.rating }}</td>
+                    <td class="hidden-md-down">{{ party.change }}</td>
+                    <td><a href="/character/{{ party.player.character }}/feast/{{ season }}">{{ party.player.name }}</a></td>
+                    <td class="hidden-md-down">{{ party.player.data_center }}</td>
+                    <td class="hidden-md-down">{{ party.player.server }}</td>
+                    <td class="hidden-md-down">{{ party.wins }}</td>
+                    <td class="hidden-md-down">{{ party.matches }}</td>
+                    <td class="align-right">{{ party.percent }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="no-data">There are no rankings recorded.</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <nav class="cleanse-news" aria-label="Feast Light Party pagination.">
+                {{ rankings.render|raw }}
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    var elements = document.getElementsByClassName('clickable');
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+            var href = this.dataset.href;
+            if (href) {
+                window.location.assign(href);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,71 @@
+{% set rankings = __SELF__.rankings %}
+<div class="basic-page">
+    <div class="container">
+        <div class="page-title">
+            <h1>Solo Feast Rankings</h1>
+            <div class="sub-box"></div>
+        </div>
+
+        <div class="table-responsive-sm">
+            <table class="table text-white">
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Rating</th>
+                    <th class="hidden-md-down">Change</th>
+                    <th>Name</th>
+                    <th class="hidden-md-down">Data Center</th>
+                    <th class="hidden-md-down">Server</th>
+                    {% if season < 6 %}
+                    <th class="hidden-md-down">Wins</th>
+                    <th class="hidden-md-down">Matches</th>
+                    <th>Win %</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for solo in rankings %}
+                <tr class="clickable" data-href="/character/{{ solo.player.character }}/feast/{{ season }}">
+                    <td>{% if solo.rank == 8675309 %} <i class="icon icon-arrow-down" aria-hidden="true"></i> {% else %} {{ solo.rank }} {% endif %}</td>
+                    <td>{{ solo.rating }}</td>
+                    <td class="hidden-md-down">{{ solo.change }}</td>
+                    <td><a href="/character/{{ solo.player.character }}/feast/{{ season }}">{{ solo.player.name }}</a></td>
+                    <td class="hidden-md-down">{{ solo.player.data_center }}</td>
+                    <td class="hidden-md-down">{{ solo.player.server }}</td>
+                    {% if solo.season < 6 %}
+                    <td class="hidden-md-down">{{ solo.wins }}</td>
+                    <td class="hidden-md-down">{{ solo.matches }}</td>
+                    <td class="align-right">{{ solo.percent }}</td>
+                    {% endif %}
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="no-data">There are no rankings recorded.</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% for inp in req %}
+            {{ inp }}
+            {% endfor %}
+
+            <nav class="cleanse-news" aria-label="Feast Solo Rankings pagination.">
+                {{ rankings.appends(input.dc).render|raw }}
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    var elements = document.getElementsByClassName('clickable');
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener('click', function() {
+            var href = this.dataset.href;
+            if (href) {
+                window.location.assign(href);
+            }
+        });
+    }
+</script>
