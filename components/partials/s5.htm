@@ -1,0 +1,38 @@
+<div class="pvp-table">
+    <div class="table text-white">
+        <div class="thead">
+            <span>Rank</span>
+            <span>Rating</span>
+            <span class="text-center">Change</span>
+            <span>Name</span>
+            <span>Data Center</span>
+            <span>Server</span>
+            <span class="text-center">Wins</span>
+            <span class="text-center">Matches</span>
+            <span class="text-right">Win %</span>
+        </div>
+        {% for ranking in rankings %}
+        <a class="tr" href="/character/{{ ranking.player.character }}/feast/{{ season }}">
+            <span>
+                {% if ranking.rank == 8675309 %}
+                <i class="fas fa-angle-down"></i>
+                {% else %}
+                {{ ranking.rank }}
+                {% endif %}
+            </span>
+            <span>{{ ranking.rating }}</span>
+            <span class="text-center">{{ ranking.change }}</span>
+            <span>{{ ranking.player.name }}</span>
+            <span>{{ ranking.player.data_center }}</span>
+            <span>{{ ranking.player.server }}</span>
+            <span class="text-center">{{ ranking.wins }}</span>
+            <span class="text-center">{{ ranking.matches }}</span>
+            <span class="text-right">{{ ranking.percent }}</span>
+        </a>
+        {% else %}
+        <div class="p-3">
+            <span>There are no rankings recorded.</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>

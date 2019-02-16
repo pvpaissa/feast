@@ -1,0 +1,5 @@
+{% if season >= 6 %}
+    {% partial __SELF__ ~ "::s6" %}
+{% else %}
+    {% partial __SELF__ ~ "::s5" %}
+{% endif %}
