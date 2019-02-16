@@ -59,7 +59,7 @@ class Stats extends ComponentBase
     public function onRun()
     {
         $season = Config::get('cleanse.feast::season', 1);
-        $this->top = $this->page['top'] = $this->loadSoloServers();
+        $this->top = $this->page['top'] = $this->loadSoloServers($season);
     }
 
     public function getTopSoloPlayers()
@@ -124,14 +124,14 @@ class Stats extends ComponentBase
             ->get();
     }
 
-    public function loadSoloServers()
+    public function loadSoloServers($season = 1)
     {
         return Player::select('cleanse_pvpaissa_players.server',
             DB::raw('avg(cleanse_feast_solo.rating) AS average'),
             DB::raw('count(cleanse_pvpaissa_players.server) AS count'))
             ->join('cleanse_feast_solo', 'cleanse_feast_solo.player_id', '=', 'cleanse_pvpaissa_players.id')
             ->groupBy('server')
-            ->where('cleanse_feast_solo.season', 9)
+            ->where('cleanse_feast_solo.season', $season)
             ->where('cleanse_feast_solo.rank', '!=', 8675309)
             ->orderBy('average', 'desc')
             ->get();
