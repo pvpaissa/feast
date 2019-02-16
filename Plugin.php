@@ -8,7 +8,7 @@ use Event;
 use Log;
 use Queue;
 use System\Classes\PluginBase;
-use Cleanse\Pvpaissa\Classes\HelperDataCenters;
+use Cleanse\PvPaissa\Classes\HelperDataCenters;
 use Cleanse\Feast\Classes\FeastHelper;
 
 class Plugin extends PluginBase
@@ -16,25 +16,21 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name' => 'PvPaissa Feast Plugin',
-            'description' => 'Adds FFXIV Feast Rankings to PvPaissa.',
-            'author' => 'Paul Lovato',
-            'icon' => 'icon-shield'
+            'name'          => 'PvPaissa Feast Plugin',
+            'description'   => 'Adds FFXIV Feast Rankings to PvPaissa.',
+            'author'        => 'Paul Lovato',
+            'icon'          => 'icon-shield'
         ];
     }
 
     public function registerComponents()
     {
         return [
-            'Cleanse\Feast\Components\Solo'  => 'cleanseFeastSolo',
-            'Cleanse\Feast\Components\Party' => 'cleanseFeastParty',
-
-            //todo: Finish rewriting the components below.
-            'Cleanse\Feast\Components\FeastSoloMini'         => 'feastSoloMini',
-            'Cleanse\Feast\Components\FeastPartyMini'        => 'feastPartyMini',
-            'Cleanse\Feast\Components\FeastWeekly'           => 'feastWeekly',
-            'Cleanse\Feast\Components\CharacterProfileFeast' => 'characterProfileFeast',
-            'Cleanse\Feast\Components\FeastInstall'          => 'feastInstall', //?? Rewrite later.
+            'Cleanse\Feast\Components\Solo'     => 'cleanseFeastSolo',
+            'Cleanse\Feast\Components\Party'    => 'cleanseFeastParty',
+            'Cleanse\Feast\Components\Profile'  => 'cleanseFeastProfile',
+            'Cleanse\Feast\Components\Stats'    => 'cleanseFeastWeekly',
+            'Cleanse\Feast\Components\Install'  => 'cleanseFeastInstall',
         ];
     }
 
