@@ -29,8 +29,12 @@ class Plugin extends PluginBase
             'Cleanse\Feast\Components\Solo'     => 'cleanseFeastSolo',
             'Cleanse\Feast\Components\Party'    => 'cleanseFeastParty',
             'Cleanse\Feast\Components\Profile'  => 'cleanseFeastProfile',
-            'Cleanse\Feast\Components\Stats'    => 'cleanseFeastWeekly',
             'Cleanse\Feast\Components\Install'  => 'cleanseFeastInstall',
+
+            /**
+             * todo: Create stats page from s1-current
+             */
+            'Cleanse\Feast\Components\Stats'    => 'cleanseFeastStats',
         ];
     }
 
