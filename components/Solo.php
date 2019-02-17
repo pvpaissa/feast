@@ -27,7 +27,7 @@ class Solo extends ComponentBase
             'season' => [
                 'title'       => 'Feast Season',
                 'description' => 'If you wish to specify a specific season.',
-                'default'     => Config::get('cleanse.feast::season', 1),
+                'default'     => '{{ :season }}',
                 'type'        => 'string',
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'Please enter a season number.'
@@ -39,7 +39,7 @@ class Solo extends ComponentBase
     {
         $this->amount = Config::get('cleanse.feast::solo_full_take', 50);
         
-        $this->season = $this->page['season'] = $this->property('season');
+        $this->season = $this->page['season'] = $this->property('season') ?: Config::get('cleanse.feast::season', 1);
 
         $this->rankings = $this->page['rankings'] = $this->loadRankings();
     }
