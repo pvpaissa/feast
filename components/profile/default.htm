@@ -1,0 +1,68 @@
+<div class="basic-page">
+    <div class="container">
+        <div class="page-title">
+            <h1>{{ character.name }}</h1>
+            <div class="sub-box"></div>
+        </div>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/character/{{ character.character }}">
+                        Profile
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Feast Season {{ season }}</li>
+            </ol>
+        </nav>
+
+        <div class="cleanse-feast-ranks">
+            <div class="row">
+                <div class="col-lg-{% if character.party_daily.count > 0 %}6{% else %}12{% endif %}">
+                    <h3 class="text-white">Daily Solo Ratings</h3>
+                    {% if season <= 5 %}
+                    {% partial __SELF__ ~ "::s5"
+                    solo = __SELF__.character.solo_daily
+                    %}
+                    {% else %}
+                    {% partial __SELF__ ~ "::s6"
+                    solo = __SELF__.character.solo_daily
+                    %}
+                    {% endif %}
+                </div>
+
+                {% if character.party_daily.count > 0 %}
+                <div class="col-lg-6">
+                    <h3 class="text-white">Daily Light Party Ratings</h3>
+                    <div class="pvp-table">
+                        <div class="table text-white">
+                            <div class="thead">
+                                <span>Date</span>
+                                <span>Daily Rank</span>
+                                <span class="text-center">Rating</span>
+                                <span class="text-center">Change</span>
+                                <span class="text-center">Wins</span>
+                                <span class="text-center">Matches</span>
+                            </div>
+                            {% for partyseason in character.party_daily %}
+                            <div class="tr">
+                                <span>{{ partyseason.updated_at|date("m/d/Y") }}</span>
+                                <span>{{ partyseason.rank }}</span>
+                                <span class="text-center">{{ partyseason.rating }}</span>
+                                <span class="text-center">{{ partyseason.change ?: '--' }}</span>
+                                <span class="text-center">{{ partyseason.wins }}</span>
+                                <span class="text-center">{{ partyseason.matches }}</span>
+                            </div>
+                            {% else %}
+                            <div class="p-3">
+                                <span>There are no rankings recorded.</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

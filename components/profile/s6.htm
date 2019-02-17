@@ -1,0 +1,22 @@
+<div class="pvp-table">
+    <div class="table text-white">
+        <div class="thead">
+            <span>Date</span>
+            <span>Daily Rank</span>
+            <span class="text-center">Rating</span>
+            <span class="text-center">Change</span>
+        </div>
+        {% for soloseason in solo %}
+        <div class="tr">
+            <span>{{ soloseason.updated_at|date("m/d/Y") }}</span>
+            <span>{{ soloseason.rank }}</span>
+            <span class="text-center">{{ soloseason.rating }}</span>
+            <span class="text-center">{{ soloseason.change ? soloseason.change : '--' }}</span>
+        </div>
+        {% else %}
+        <div class="p-3">
+            <span>There are no daily rankings recorded.</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
