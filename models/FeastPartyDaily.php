@@ -21,7 +21,7 @@ class FeastPartyDaily extends Model
 
     public $hasOne = [
         'player' => [
-            'Cleanse\Pvpaissa\Models\Player',
+            'Cleanse\PvPaissa\Models\Player',
             'key' => 'id',
             'otherKey' => 'player_id'
         ]
@@ -29,7 +29,7 @@ class FeastPartyDaily extends Model
 
     public $belongsTo = [
         'player' => [
-            'Cleanse\Pvpaissa\Models\Player',
+            'Cleanse\PvPaissa\Models\Player',
             'key' => 'player_id'
         ]
     ];

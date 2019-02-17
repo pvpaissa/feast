@@ -4,8 +4,8 @@ namespace Cleanse\Feast\Classes;
 
 use Log;
 use Queue;
-use Cleanse\Pvpaissa\Classes\UpdateOrCreatePlayer;
-use Cleanse\Pvpaissa\Classes\HelperRankSort;
+use Cleanse\PvPaissa\Classes\UpdateOrCreatePlayer;
+use Cleanse\PvPaissa\Classes\HelperRankSort;
 use Cleanse\Feast\Models\FeastSolo;
 use Cleanse\Feast\Models\FeastSoloDaily;
 use Cleanse\Feast\Classes\FeastCrawler;
