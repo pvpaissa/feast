@@ -2,9 +2,13 @@
 <div class="basic-page">
     <div class="container">
         <div class="page-title">
-            <h1>Feast Solo Rankings</h1>
+            <h1>Solo Rankings</h1>
             <div class="sub-box"></div>
         </div>
+
+        <p class="text-primary lead">
+            Feast Season {{ season }}
+        </p>
 
         {% partial __SELF__ ~ "::rankings" %}
 
