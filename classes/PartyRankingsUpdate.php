@@ -19,7 +19,6 @@ class PartyRankingsUpdate
         $players = $list->crawl();
 
         if (empty($players)) {
-            Log::info('Day empty: '.$data['day']);
             return;
         }
 
