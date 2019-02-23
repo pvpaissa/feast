@@ -52,8 +52,8 @@ class PartyRankingsUpdate
 
         Log::info('Daily party done. ' . $data['day']);
         $typeSeason = ['season' => $data['season'], 'type' => 'party'];
-        Queue::push('\Cleanse\Pvpaissa\Classes\Jobs\FeastOutdated', $typeSeason);
-        Queue::push('\Cleanse\Pvpaissa\Classes\Jobs\RankFeastSeason', $typeSeason);
+        Queue::push('\Cleanse\Feast\Classes\Jobs\FeastOutdated', $typeSeason);
+        Queue::push('\Cleanse\Feast\Classes\Jobs\RankFeastSeason', $typeSeason);
     }
 
     public function seasonPlayerSort($data)
