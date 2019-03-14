@@ -3,7 +3,6 @@
 namespace Cleanse\Feast\Classes;
 
 use Config;
-use Log;
 use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -41,7 +40,6 @@ class FeastCrawler
 
         //If this tier has no players
         if (!$crawler->filterXPath('//*[@id="ranking"]/div[3]/div/article/table/tbody/tr[1]/td[1]/p')->count()) {
-            Log::info('Skipping tier: '.$this->tier.' on datacenter '.$this->datacenter);
             return;
         }
 

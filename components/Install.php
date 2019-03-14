@@ -3,7 +3,6 @@
 namespace Cleanse\Feast\Components;
 
 use Config;
-use Log;
 use Queue;
 use Cms\Classes\ComponentBase;
 use Cleanse\Feast\Classes\FeastHelper;
@@ -35,9 +34,7 @@ class Install extends ComponentBase
         $tiers = $feast->tiers;
         $types = $feast->types;
         $datacenters = $feast->datacenters;
-        $season = Config::get('cleanse.feast::season', 2) - 1; //todo
-
-        Log::info('Starting feast install.');
+        $season = Config::get('cleanse.feast::season', 2) - 1;
 
         foreach ($types as $type) {
             foreach ($datacenters as $datacenter) {
@@ -51,9 +48,8 @@ class Install extends ComponentBase
                     ];
 
                     if ($type === 'party' and $tier <= 4) {
-                        //Log::info('Skipping: '.$datacenter.' '.$type.' '.$tier);
+                        return;
                     } else {
-                        //Log::info('else '.$datacenter.' '.$type.' '.$tier.' '.$season);
                         Queue::push('\Cleanse\Feast\Classes\Jobs\ScrapeFeast', $data);
                     }
                 }

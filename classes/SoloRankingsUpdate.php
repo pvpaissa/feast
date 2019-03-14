@@ -2,7 +2,6 @@
 
 namespace Cleanse\Feast\Classes;
 
-use Log;
 use Queue;
 use Cleanse\PvPaissa\Classes\UpdateOrCreatePlayer;
 use Cleanse\PvPaissa\Classes\HelperRankSort;
@@ -50,7 +49,6 @@ class SoloRankingsUpdate
                 });
         }
 
-        Log::info('Daily solo done. ' . $data['day']);
         $typeSeason = ['season' => $data['season'], 'type' => 'solo'];
         Queue::push('\Cleanse\Feast\Classes\Jobs\FeastOutdated', $typeSeason);
         Queue::push('\Cleanse\Feast\Classes\Jobs\RankFeastSeason', $typeSeason);
@@ -77,7 +75,5 @@ class SoloRankingsUpdate
                     }
                 });
         }
-
-        Log::info('Feast solo overall done.');
     }
 }

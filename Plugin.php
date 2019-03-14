@@ -5,7 +5,6 @@ namespace Cleanse\Feast;
 use Config;
 use DateTime;
 use Event;
-use Log;
 use Queue;
 use System\Classes\PluginBase;
 use Cleanse\PvPaissa\Classes\HelperDataCenters;
@@ -68,8 +67,6 @@ class Plugin extends PluginBase
             $datacenters = $feast->datacenters;
             $season = Config::get('cleanse.feast::season', 1);
 
-            Log::info('Starting feast update.');
-
             foreach ($types as $type) {
                 foreach ($datacenters as $datacenter) {
                     foreach ($tiers as $tier) {
@@ -82,9 +79,8 @@ class Plugin extends PluginBase
                         ];
 
                         if ($type === 'party' and $tier <= 4) {
-                            Log::info('Skipping: '.$datacenter.' '.$type.' '.$tier);
+                            return;
                         } else {
-                            Log::info('else '.$datacenter.' '.$type.' '.$tier.' '.$season);
                             Queue::push('\Cleanse\Feast\Classes\Jobs\ScrapeFeast', $data);
                         }
                     }
@@ -96,6 +92,6 @@ class Plugin extends PluginBase
                     'season' => $season
                 ]);
             }
-        })->cron('45 14 * * *');
+        })->cron('3 4 * * *');
     }
 }

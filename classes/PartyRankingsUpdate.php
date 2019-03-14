@@ -2,7 +2,6 @@
 
 namespace Cleanse\Feast\Classes;
 
-use Log;
 use Queue;
 use Cleanse\PvPaissa\Classes\UpdateOrCreatePlayer;
 use Cleanse\PvPaissa\Classes\HelperRankSort;
@@ -49,8 +48,7 @@ class PartyRankingsUpdate
                     }
                 });
         }
-
-        Log::info('Daily party done. ' . $data['day']);
+        
         $typeSeason = ['season' => $data['season'], 'type' => 'party'];
         Queue::push('\Cleanse\Feast\Classes\Jobs\FeastOutdated', $typeSeason);
         Queue::push('\Cleanse\Feast\Classes\Jobs\RankFeastSeason', $typeSeason);
@@ -77,7 +75,5 @@ class PartyRankingsUpdate
                     }
                 });
         }
-
-        Log::info('Feast party overall done.');
     }
 }
