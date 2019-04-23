@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'season' => 12,
+    'season' => 13,
     'solo_mini_take' => 5,
     'solo_full_take' => 50,
     'party_mini_take' => 5,
