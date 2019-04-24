@@ -7,12 +7,13 @@ class FeastHelper
     public $tiers = [5, 4, 3, 2, 1];
     public $types = ['solo']; //public $types = ['solo', 'party'];
     
-    //Need to add new data centers soonTM
     public $datacenters = [
         'Aether',
         'Chaos',
+        'Crystal',
         'Elemental',
         'Gaia',
+        'Light',
         'Mana',
         'Primal'
     ];
