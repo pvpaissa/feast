@@ -3,6 +3,7 @@
 namespace Cleanse\Feast\Classes;
 
 use Config;
+use Log;
 use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -39,11 +40,12 @@ class FeastCrawler
         $crawler = new Crawler($dataCenterPlayers);
 
         //If this tier has no players
-        if (!$crawler->filterXPath('//*[@id="ranking"]/div[3]/div/article/table/tbody/tr[1]/td[1]/p')->count()) {
+        if (!$crawler->filterXPath('//*[@id="ranking"]/div[3]/div/div[2]/article/table/tbody/tr')->count()) {
+            Log::info('The crawler found no data in: ' . $this->datacenter . ' ' . $this->day);
             return;
         }
 
-        $crawler->filterXPath('//*[@id="ranking"]/div[3]/div/article/table/tbody/tr')
+        $crawler->filterXPath('//*[@id="ranking"]/div[3]/div/div[2]/article/table/tbody/tr')
             ->each(function (Crawler $node) {
                 $player = [];
 

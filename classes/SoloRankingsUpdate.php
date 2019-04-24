@@ -2,6 +2,8 @@
 
 namespace Cleanse\Feast\Classes;
 
+use Log;
+
 use Queue;
 use Cleanse\PvPaissa\Classes\UpdateOrCreatePlayer;
 use Cleanse\PvPaissa\Classes\HelperRankSort;
@@ -18,6 +20,7 @@ class SoloRankingsUpdate
         $players = $list->crawl();
 
         if (empty($players)) {
+            Log::info('Solo Update found no players: '. $data['datacenter']);
             return;
         }
 
