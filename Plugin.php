@@ -90,13 +90,19 @@ class Plugin extends PluginBase
                         }
                     }
                 }
-
-                Queue::push('\Cleanse\Feast\Classes\Jobs\RankFeastDaily', [
-                    'day' => $day,
-                    'type' => $type,
-                    'season' => $this->season
-                ]);
             }
         })->cron('3 4 * * *');
+
+        $schedule->call(function ()
+        {
+            $feast = new FeastHelper;
+            $day = $feast->yearDay();
+            $season = Config::get('cleanse.feast::season', 1);
+            Queue::push('\Cleanse\Feast\Classes\Jobs\RankFeastDaily', [
+                'day' => $day,
+                'type' => 'solo',
+                'season' => $season
+            ]);
+        })->cron('33 4 * * *');
     }
 }

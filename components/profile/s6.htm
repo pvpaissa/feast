@@ -8,7 +8,7 @@
         </div>
         {% for soloseason in solo %}
         <div class="tr">
-            <span>{{ soloseason.updated_at|date("m/d/Y") }}</span>
+            <span>{{ soloseason.created_at|date("m/d/Y") }}</span>
             <span>{{ soloseason.rank }}</span>
             <span class="text-center">{{ soloseason.rating }}</span>
             <span class="text-center">{{ soloseason.change ? soloseason.change : '--' }}</span>

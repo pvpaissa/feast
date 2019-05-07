@@ -52,11 +52,11 @@ class Profile extends ComponentBase
         return Player::with([
                 'solo_daily' => function($q) {
                     $q->where('season', $this->season);
-                    $q->orderBy('updated_at', 'desc');
+                    $q->orderBy('created_at', 'desc');
                 },
                 'party_daily' => function($q) {
                     $q->where('season', $this->season);
-                    $q->orderBy('updated_at', 'desc');
+                    $q->orderBy('created_at', 'desc');
                 }
             ])
             ->where('character', $character)
