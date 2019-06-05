@@ -2,14 +2,9 @@
 
 namespace Cleanse\Feast;
 
-use Config;
 use DateTime;
-use Event;
-use Log;
-use Queue;
 use System\Classes\PluginBase;
-use Cleanse\PvPaissa\Classes\HelperDataCenters;
-use Cleanse\Feast\Classes\FeastHelper;
+use Cleanse\Feast\Classes\LightParty\Schedule;
 
 class Plugin extends PluginBase
 {
@@ -62,47 +57,20 @@ class Plugin extends PluginBase
 
     public function registerSchedule($schedule)
     {
-        $schedule->command('cache:clear')->weekly()->mondays()->at('23:59');
+        //This is the first true LP season not tied to FRC.
+        $this->season = 1;
 
+        //Look into adding a backend for new seasons and finalizing seasons 'SoonTM'
+        //If we do, we'll add logic below to schedule the diff modes.
         $schedule->call(function () {
-            $feast = new FeastHelper;
-            $day = $feast->yearDay();
-            $tiers = $feast->tiers;
-            $types = $feast->types;
-            $datacenters = $feast->datacenters;
-            $this->season = Config::get('cleanse.feast::season', 1);
-
-            foreach ($types as $type) {
-                foreach ($datacenters as $datacenter) {
-                    foreach ($tiers as $tier) {
-                        $data = [
-                            'datacenter' => $datacenter,
-                            'day' => $day,
-                            'tier' => $tier,
-                            'type' => $type,
-                            'season' => $this->season
-                        ];
-
-                        if ($type === 'party' and $tier <= 4) {
-                            return;
-                        } else {
-                            Queue::push('\Cleanse\Feast\Classes\Jobs\ScrapeFeast', $data);
-                        }
-                    }
-                }
-            }
+            $getLP = new Schedule;
+            $getLP->crawlData($this->season);
         })->cron('3 4 * * *');
 
         $schedule->call(function ()
         {
-            $feast = new FeastHelper;
-            $day = $feast->yearDay();
-            $season = Config::get('cleanse.feast::season', 1);
-            Queue::push('\Cleanse\Feast\Classes\Jobs\RankFeastDaily', [
-                'day' => $day,
-                'type' => 'solo',
-                'season' => $season
-            ]);
+            $getLP = new Schedule;
+            $getLP->calculateRankings($this->season);
         })->cron('33 4 * * *');
     }
 }
