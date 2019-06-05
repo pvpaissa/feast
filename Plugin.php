@@ -2,8 +2,11 @@
 
 namespace Cleanse\Feast;
 
+use Event;
 use DateTime;
 use System\Classes\PluginBase;
+
+use Cleanse\Feast\Models\Party;
 use Cleanse\Feast\Classes\LightParty\Schedule;
 
 class Plugin extends PluginBase
@@ -23,16 +26,44 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'Cleanse\Feast\Components\Solo'     => 'cleanseFeastSolo',
-            'Cleanse\Feast\Components\Party'    => 'cleanseFeastParty',
-            'Cleanse\Feast\Components\Profile'  => 'cleanseFeastProfile',
-            'Cleanse\Feast\Components\Install'  => 'cleanseFeastInstall',
+            'Cleanse\Feast\Components\Solo'         => 'cleanseFeastSolo',
+            'Cleanse\Feast\Components\Party'        => 'cleanseFeastParty',
+            'Cleanse\Feast\Components\Profile'      => 'cleanseFeastProfile',
+            'Cleanse\Feast\Components\Install'      => 'cleanseFeastInstall',
+            'Cleanse\Feast\Components\PartyList'    => 'cleanseFeastPartyList',
+            'Cleanse\Feast\Components\PartyProfile' => 'cleanseFeastPartyProfile',
 
             /**
              * todo: Create stats page from s1-current
              */
             'Cleanse\Feast\Components\Stats'    => 'cleanseFeastStats',
         ];
+    }
+
+    public function boot()
+    {
+        Event::listen('offline.sitesearch.query', function ($query) {
+
+            $items = Party::where('name', 'like', "%${query}%")
+                ->get();
+
+            $results = $items->map(function ($item) use ($query) {
+
+                $relevance = mb_stripos($item->name, $query) !== false ? 2 : 1;
+
+                return [
+                    'title' => $item->name,
+                    'text' => $item->dc_group,
+                    'url' => '/light-party/profile/' . $item->lodestone,
+                    'relevance' => $relevance,
+                ];
+            });
+
+            return [
+                'provider' => 'Feast',
+                'results' => $results,
+            ];
+        });
     }
 
     public function registerMarkupTags()

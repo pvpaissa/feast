@@ -38,8 +38,7 @@ class PartyDaily extends Model
     public $belongsTo = [
         'team' => [
             'Cleanse\Feast\Models\Party',
-            'key' => 'party_id',
-            'otherKey' => 'id'
+            'key' => 'party_id'
         ]
     ];
 }

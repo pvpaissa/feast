@@ -41,8 +41,12 @@ class Party extends Model
     public $hasMany = [
         'daily' => [
             'Cleanse\Feast\Models\PartyDaily',
-            'key' => 'party_id',
-            'otherKey' => 'id'
+            'key' => 'party_id'
         ]
     ];
+
+    // Category model
+    public function latestRecorded() {
+        return $this->hasOne(PartyDaily::class)->latest();
+    }
 }

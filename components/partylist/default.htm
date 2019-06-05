@@ -1,0 +1,55 @@
+{% set rankings = __SELF__.rankings %}
+<div class="basic-page">
+    <div class="container">
+        <div class="page-title">
+            <h1>Light Party Team Rankings</h1>
+            <div class="sub-box"></div>
+        </div>
+
+        <p class="text-primary lead">
+            Feast Season {{ season }}
+        </p>
+
+        <div class="pvp-table">
+            <div class="table text-white">
+                <div class="thead">
+                    <span>Rank</span>
+                    <span>Rating</span>
+                    <span>Name</span>
+                    <span>Data Center</span>
+                </div>
+                {% for ranking in rankings %}
+                <a class="lp-list tr" href="/light-party/profile/{{ ranking.lodestone }}/{{ season }}">
+                    <span>
+                        {% if ranking.rank == 8675309 %}
+                        <i class="fas fa-angle-down"></i>
+                        {% else %}
+                        {{ ranking.rank }}
+                        {% endif %}
+                    </span>
+                    <span>{{ ranking.rating }}</span>
+                    <span>
+                        <span class="d-inline-flex">
+                            <span class="crest-wrapper">
+                            {% for i in ranking.crest %}
+                                <img class="border-{{ ranking.latestRecorded.division|lower }}" src="{{ i }}">
+                            {% endfor %}
+                            </span>
+                            <span class="pl-3">{{ ranking.name }}</span>
+                        </span>
+                    </span>
+                    <span>{{ ranking.dc_group }}</span>
+                </a>
+                {% else %}
+                <div class="p-3">
+                    <span>There are no rankings recorded.</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <nav aria-label="Feast solo rankings pagination.">
+            {{ rankings.render|raw }}
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+.lp-list.tr > span {
+  vertical-align: middle;
+}
+
+ul.roster > li:nth-child(1) {
+  color: #ECCE59;
+}
+
+.crest-wrapper {
+  position: relative;
+  width: 35px;
+  height: 35px;
+  margin: 0 auto;
+
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    display: block;
+
+    &:first-child {
+      width: 34px;
+      height: 34px;
+    }
+
+    &:first-child.border-diamond {
+      filter: drop-shadow(0 0 0.5rem #0653A8);
+    }
+
+    &:first-child.border-platinum {
+      filter: drop-shadow(0 0 0.4rem #78D9F2);
+    }
+
+    &:first-child.border-gold {
+      filter: drop-shadow(0 0 0.3rem #ECCE59);
+    }
+
+    &:first-child.border-silver {
+      filter: drop-shadow(0 0 0.25rem #A4BFC7);
+    }
+
+    &:first-child.border-bronze {
+      filter: drop-shadow(0 0 0.2rem #DC6821);
+    }
+  }
+}
