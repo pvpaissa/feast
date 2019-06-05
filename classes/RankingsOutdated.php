@@ -5,6 +5,7 @@ namespace Cleanse\Feast\Classes;
 use Carbon\Carbon;
 use Cleanse\Feast\Models\FeastSolo;
 use Cleanse\Feast\Models\FeastParty;
+use Cleanse\Feast\Models\Party;
 
 class RankingsOutdated
 {
@@ -44,6 +45,23 @@ class RankingsOutdated
             $player->rank = $this->partyOffset;
 
             $player->save();
+        }
+    }
+
+    public function updateLightParty($data)
+    {
+        $formatted_date = Carbon::now()->subHours(1)->toDateTimeString();
+        $oldParties = Party::where('updated_at', '<' , $formatted_date)
+            ->where('season', $data['season'])
+            ->where('old', 0)
+            ->orderBy('rating', 'desc')
+            ->get();
+
+        foreach ($oldParties as $party) {
+            $party->old = 1;
+            $party->rank = $this->partyOffset;
+
+            $party->save();
         }
     }
 }

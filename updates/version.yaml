@@ -3,3 +3,6 @@
     - Create Feast Database Tables
     - add_feast_tables.php
 1.0.9: Beta.
+2.0.0:
+    - Create Light Party Tables
+    - add_light_party_tables.php

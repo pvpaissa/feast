@@ -16,6 +16,8 @@ class FeastCrawler
     public $tier;
     public $day;
 
+    public $url;
+
     /**
      * FeastCrawler constructor.
      * @param integer $season
@@ -41,7 +43,7 @@ class FeastCrawler
 
         //If this tier has no players
         if (!$crawler->filterXPath('//*[@id="ranking"]/div[3]/div/div[2]/article/table/tbody/tr')->count()) {
-            Log::info('The crawler found no data in: ' . $this->datacenter . ' ' . $this->day);
+            Log::info('The DOM crawler found no data in ' . $this->url . ': ' . $this->datacenter . ' ' . $this->day);
             return;
         }
 
@@ -74,9 +76,9 @@ class FeastCrawler
     private function guzzle()
     {
         if ($this->season === Config::get('cleanse.feast::season', 1)) {
-            $link = 'https://na.finalfantasyxiv.com/lodestone/ranking/thefeast/';
+            $this->url = 'https://na.finalfantasyxiv.com/lodestone/ranking/thefeast/';
         } else {
-            $link = 'https://na.finalfantasyxiv.com/lodestone/ranking/thefeast/result/'.$this->season.'/';
+            $this->url = 'https://na.finalfantasyxiv.com/lodestone/ranking/thefeast/result/'.$this->season.'/';
         }
 
         $urlVars = '?solo_party='.$this->type;
@@ -88,7 +90,7 @@ class FeastCrawler
 
         $client = new GuzzleClient;
 
-        $res = $client->get($link.$urlVars);
+        $res = $client->get($this->url.$urlVars);
 
         return $res->getBody()->getContents();
     }

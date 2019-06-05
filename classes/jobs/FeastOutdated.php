@@ -18,6 +18,11 @@ class FeastOutdated
             $fix->updateParty($data);
         }
 
+        if ($data['type'] == 'lp') {
+            $fix = new RankingsOutdated;
+            $fix->updateLightParty($data);
+        }
+
         $job->delete();
     }
 }

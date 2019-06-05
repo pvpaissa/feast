@@ -74,9 +74,9 @@ class AddFeastTables extends Migration
 
     public function down()
     {
-        Schema::drop('cleanse_feast_solo');
-        Schema::drop('cleanse_feast_solo_daily');
-        Schema::drop('cleanse_feast_party');
         Schema::drop('cleanse_feast_party_daily');
+        Schema::drop('cleanse_feast_party');
+        Schema::drop('cleanse_feast_solo_daily');
+        Schema::drop('cleanse_feast_solo');
     }
 }
